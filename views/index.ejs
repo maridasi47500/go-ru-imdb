@@ -1,0 +1,107 @@
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<title><%= titre %></title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">Page d'accueil</a>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+
+        
+          <a class="nav-link" href="#" onclick="decon();return false;"><%if (userdecon) {%>Connexion/inscription<%}else{%>Déconnexion<%};%></span></a>
+          
+          
+
+      </li>
+    <li>
+        <form method="get" action="/films" class="barre-recherche form-inline my-2 my-lg-0">
+        <label for="titre">Chercher un titre :</label>
+        <input type="search" class="titre-film form-control mr-sm-2" name="titre" id="titre" value=""  placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="chercher">Search</button>
+        </form>
+    </li>
+
+    </ul>
+    <label for="movie-select">Choose a movie:</label>
+
+<select name="movies" id="movies-select">
+    <option value="">--Please choose a movie genre--</option>
+    <option value="comedy">Comedy</option>
+    <option value="horror">Horror</option>
+    <option value="romance">Romance</option>
+    <option value="thriller">Thriller</option>
+    <option value="drama">Drama</option>
+    <option value="sci-fi">Sci-Fi</option>
+    <option value="mystery">Mystery</option>
+    <option value="crime">Crime</option>
+    <option value="animation">Animation</option>
+    <option value="adventure">Adventure</option>
+    <option value="fantasy">Fantasy</option>
+    <option value="superhero">Superhero</option>
+    <option value="comedy-romance">Comedy-Romance</option>
+    <option value="action-comedy">Action-Comedy</option>
+
+</select>
+  </div>
+</nav>
+<main>
+<h1>Films les plus récents </h1>
+<p>Notes les plus récentes</p>
+<% films.forEach(function(film){%>
+<%if(film['note_id']){%>
+<section class="notes-recemment">
+<p>Titre du film : <a href="/films/<%=film['id']%>"><%= film['name']%></a> (sorti le <%= film['release_date']%>). Noté récemment par <%=film['username']%> (<%= film['note_id'] %>/5)</p>
+</section>
+<%};%>
+
+<%});%>
+<p>Films les plus récents</p>
+<% films.forEach(function(film){%>
+<%if(!film['note_id']){%>
+
+<section class="films-recents">
+<p>Titre du film : <a href="/films/<%=film['id']%>"><%= film['name']%></a> (sorti le <%= film['release_date']%>) </p>
+</section>
+<%};%>
+<%});%>
+
+</main>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  <script src="/javascript/genre.js"></script>
+<script>
+function decon(){
+    $.ajax({
+       url : '/logout',
+       type : 'POST',
+       dataType : 'html',
+success:function(res){
+if (res && res==="vous souhaitez vous connecter") {
+window.location="/login";
+} else if (res && res==="vous etes a present deconnecte") {
+window.location="/";
+}
+}});
+
+
+};
+
+
+</script>
+
+</body>
+</html>

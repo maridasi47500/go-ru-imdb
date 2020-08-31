@@ -1,0 +1,107 @@
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<title>tous les films</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">Page d'accueil</a>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+
+        
+          <a class="nav-link" href="#" id="decon-link" onclick="decon();return false;"><%if (userdecon && datafilm) {%>Connexion/inscription<%}else{%>Déconnexion<%};%></span></a>
+          
+          
+
+      </li>
+
+    </ul>
+
+  </div>
+</nav>
+<%if (datafilm){%>
+
+<section class="details-film">
+    <p><img src="<%= datafilm['image'] %>" alt="poster de <%= datafilm['name'] %>"></src></p>
+    <%if(titrepage){%>
+    <h1><%= titrepage %></h1>
+    <%};%>
+
+    <p>Description : <%= datafilm['description'] %></p>
+    </section>
+    <section class="notes-du-film">
+        <%if (notesdufilm){%>
+    <% notesdufilm.forEach(function(datafilm) { %>
+    <%if (datafilm['note']){%>
+    <p>Note de <%= datafilm['username'] %> : <%= datafilm['note'] %>/5 - <%=datafilm['hour_and_date'] %></p>
+    <%};%>
+
+    <%});%>
+    <%};%>
+
+    </section>
+    <section class="noter-un-film">
+    <p>Notez le film !</p>
+    <form class="form-notation" action="/new_note" method="post" onsubmit="return false;">
+    <label for="note">Note du film :</label>
+    <input type="number" name="note" id="note" value="" required>
+
+<%if (datafilm && datafilm['id']){%>
+    <input type="hidden" name="film_id" id="film_id" value="<%= datafilm['id'] %>">
+    <%};%>
+<%if (user_id){%>
+    <input type="hidden" name="user_id" id="user_id" value="<%= user_id %>">
+    <%};%>
+     <input name="envoyer" id="envoyer" type="submit">
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <% if (user_id) {%>
+
+    <script src="/javascript/noterlefilm.js"></script>
+    <%};%>
+
+<script>
+function decon(){
+    $.ajax({
+       url : '/logout',
+       type : 'POST',
+       dataType : 'html',
+success:function(res){
+if (res && res==="vous souhaitez vous connecter") {
+window.location="/login";
+} else if (res && res==="vous etes a present deconnecte") {
+$("#decon-link").html("Connexion/inscription");
+}
+}});
+};
+</script>
+
+
+
+
+
+
+<%} else {%>
+<%if (titrepage){%>
+
+    <h1><%= titrepage %></h1>
+<%};%>
+    <%};%>
+</body>
+</html>
+

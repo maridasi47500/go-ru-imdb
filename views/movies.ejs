@@ -1,0 +1,32 @@
+<html>
+<head>
+<title><%= titre %></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">Page d'accueil</a>
+</nav>
+<main>
+<h1><%= titre %></h1>
+<section class="movies-results">
+<%if (films.length > 0){%>
+
+<% films.forEach(function(film) { %>
+<div class="movie-result">
+<p><img src="" alt="poster de <%= film['name'] %>"></img></p>
+<p class="title-movie"><%= film['name']%></p>
+<p class="description-movie"><%= film['description'] %></p>
+</div>
+<%});%>)
+<%}else{%>)
+<p>Il n'y a pas de films pour cette requête.</p>
+<%};%>)
+</section>
+</main>
+</body>
+</html>
